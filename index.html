@@ -1,35 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sistemas Operativos — Quiz y Info</title>
+  <title>Sistemas Operativos — Curso interactivo</title>
   <style>
     :root{
-      --azul:#2b68d9;
-      --rosa:#ff82a9;
-      --fondo:#f8f9fb;
-      --card-bg: #ffffff;
-      --texto:#222;
-      --acierto:#2ecc71;
-      --fallo:#ff6b6b;
+      --azul:#1e88e5;
+      --rosado:#ff7fa3;
+      --fondo:#f8fbff;
+      --card:#ffffff;
+      --text:#1b1b1b;
+      --muted:#6b7280;
+      --accent-gradient: linear-gradient(135deg,var(--azul),var(--rosado));
       font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      background: linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%);
-      color:var(--texto);
+      background: linear-gradient(180deg, #f7fbff 0%, #fff 100%);
+      color:var(--text);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      padding:16px;
+      padding:20px;
     }
     header{
       display:flex;
       gap:16px;
       align-items:center;
       justify-content:space-between;
-      flex-wrap:wrap;
       margin-bottom:18px;
     }
     .brand{
@@ -37,457 +36,490 @@
       gap:12px;
       align-items:center;
     }
-    .logo{
-      width:64px;height:64px;border-radius:12px;
-      background:linear-gradient(135deg,var(--azul),var(--rosa));
-      color:white;display:flex;align-items:center;justify-content:center;font-weight:700;
-      box-shadow:0 6px 18px rgba(43,104,217,0.12);
+    .logo-mark{
+      width:56px;height:56px;border-radius:12px;
+      background:var(--accent-gradient);
+      display:grid;place-items:center;color:white;font-weight:700;
+      box-shadow: 0 6px 18px rgba(30,136,229,0.12);
     }
-    h1{margin:0;font-size:1.4rem}
-    p.lead{margin:0;color:#444}
-    main{
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:18px;
-    }
-    /* responsive */
-    @media (max-width:1000px){ main{grid-template-columns:1fr} .aside{order:2} .content{order:1} }
-
-    /* cards */
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted)}
+    main{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start}
+    @media(max-width:980px){ main{grid-template-columns:1fr} }
+    /* Card */
     .card{
-      background:var(--card-bg);
+      background:var(--card);
       border-radius:14px;
-      padding:16px;
-      box-shadow:0 6px 18px rgba(16,24,40,0.06);
+      padding:18px;
+      box-shadow: 0 8px 24px rgba(16,24,40,0.04);
+      border:1px solid rgba(30,136,229,0.04);
     }
-    .content .info-grid{
+    /* Info layout */
+    .grid-3{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:repeat(3,1fr);
       gap:12px;
+      margin-bottom:14px;
     }
-    @media (max-width:700px){ .content .info-grid{grid-template-columns:1fr} }
-
-    .os-block{display:flex;gap:12px;align-items:flex-start}
-    .os-block img{width:72px;height:72px;object-fit:contain;border-radius:8px;background:#fff;padding:6px}
-    h2{margin-top:8px;margin-bottom:6px;font-size:1.05rem}
-    small{color:#666}
-
-    /* quiz aside */
-    .aside .start-section{display:flex;flex-direction:column;gap:10px}
-    input[name="studentName"]{
-      padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-size:1rem;
+    @media(max-width:900px){ .grid-3{grid-template-columns:1fr} }
+    .os-card{
+      padding:14px;
+      border-radius:12px;
+      min-height:180px;
+      display:flex;flex-direction:column;gap:10px;
+      justify-content:flex-start;align-items:flex-start;
+      color:#06202a;
+    }
+    .os-windows{background: linear-gradient(180deg, rgba(30,136,229,0.08), rgba(30,136,229,0.02)); border:1px solid rgba(30,136,229,0.12)}
+    .os-linux{background: linear-gradient(180deg, rgba(40,167,69,0.06), rgba(255,127,163,0.02)); border:1px solid rgba(40,167,69,0.08)}
+    .os-macos{background: linear-gradient(180deg, rgba(142,142,142,0.06), rgba(255,127,163,0.02)); border:1px solid rgba(100,100,100,0.06)}
+    .os-title{display:flex;gap:10px;align-items:center}
+    .os-title h3{margin:0;font-size:16px}
+    .muted{color:var(--muted);font-size:14px}
+    /* Right column: quiz UI */
+    .side{
+      position:sticky;top:20px;
+    }
+    .input-row{display:flex;gap:8px;margin-bottom:12px}
+    input[type="text"]{
+      flex:1;padding:10px;border-radius:10px;border:1px solid rgba(16,24,40,0.06);
+      outline:none;font-size:14px;
     }
     button{
-      padding:10px 14px;border-radius:10px;border:0;font-weight:600;
-      cursor:pointer;
-    }
-    button.primary{
-      background:linear-gradient(90deg,var(--azul),#5aa0ff);color:white;
-      box-shadow:0 8px 20px rgba(43,104,217,0.16);
+      background:var(--azul);
+      border:none;color:white;padding:10px 14px;border-radius:10px;
+      font-weight:600;cursor:pointer;
     }
     button.ghost{
-      background:transparent;border:1px solid rgba(34,34,34,0.06);
+      background:transparent;border:1px solid rgba(16,24,40,0.06);color:var(--text);
     }
-
-    /* quiz area */
     .quiz-area{margin-top:12px}
-    .question-card{margin-bottom:12px;padding:12px;border-radius:10px;border:1px solid #eef3ff;background:linear-gradient(180deg,#fff,#fbfdff)}
-    .options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-    .option{
-      padding:10px;border-radius:8px;border:1px solid #e6e9ef;cursor:pointer;background:white;
+    .question{
+      font-weight:600;margin-bottom:8px;
     }
-    .option.selected{outline:3px solid rgba(43,104,217,0.12)}
-    .summary{margin-top:12px}
-    .result-good{color:var(--acierto);font-weight:700}
-    .result-bad{color:var(--fallo);font-weight:700}
-
-    .results-list{margin-top:10px;display:grid;gap:8px}
-    .result-item{padding:10px;border-radius:8px;border:1px solid #f1f5ff;background:#fff}
-
-    footer{margin-top:18px;text-align:center;color:#666;font-size:0.9rem}
-    /* small helper */
-    .muted{color:#666;font-size:0.95rem}
+    .choices{display:flex;flex-direction:column;gap:8px}
+    .choice{
+      padding:10px;border-radius:10px;border:1px solid rgba(16,24,40,0.06);
+      background:linear-gradient(180deg, #fff, #fbfdff);cursor:pointer;
+    }
+    .choice.selected{box-shadow:0 6px 18px rgba(30,136,229,0.06);border:1px solid rgba(30,136,229,0.2)}
+    .progress{height:10px;background:#eef4ff;border-radius:999px;overflow:hidden;margin-top:12px}
+    .progress > i{display:block;height:100%;background:var(--accent-gradient);width:0%}
+    .results{margin-top:14px}
+    .result-item{display:flex;justify-content:space-between;padding:10px;border-radius:10px;border:1px solid rgba(16,24,40,0.04);margin-bottom:8px}
+    .small{font-size:13px;color:var(--muted)}
+    footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
+    /* illustrations row */
+    .illus-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px}
+    .illus{width:100%;border-radius:10px;padding:10px;background:linear-gradient(180deg,#fff,#fff);display:flex;gap:12px;align-items:center}
+    .illus svg{width:64px;height:64px}
+    .explain{background:linear-gradient(90deg, rgba(255,127,163,0.06), rgba(30,136,229,0.04));padding:12px;border-radius:10px;margin-top:12px}
+    .small-tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(30,136,229,0.06);font-weight:600;color:var(--azul);font-size:13px}
+    /* answer review colors */
+    .correct{border-left:6px solid #06a84a;background:#f3fff6}
+    .wrong{border-left:6px solid #ff5a6e;background:#fff6f8}
   </style>
 </head>
 <body>
   <header>
     <div class="brand">
-      <div class="logo">SO</div>
+      <div class="logo-mark">SO</div>
       <div>
-        <h1>Sistemas Operativos — Info + Cuestionario</h1>
-        <p class="lead">Windows · Linux · macOS — aprende y pon a prueba tus conocimientos</p>
+        <h1>Guía Interactiva: Sistemas Operativos</h1>
+        <p class="lead">Windows · Linux · macOS — Definición, arquitectura, usabilidad y quiz interactivo</p>
       </div>
     </div>
-    <div class="muted">Colores: azul + rosado cálido · Responsive ✅</div>
+    <div style="text-align:right">
+      <div class="small-tag">Colores: azul + rosado cálido</div>
+    </div>
   </header>
 
   <main>
-    <!-- main content -->
-    <section class="content">
+    <!-- Left: content -->
+    <section>
       <div class="card">
-        <h2>¿Qué es un sistema operativo?</h2>
-        <p class="muted">Un <strong>sistema operativo (SO)</strong> es el software que gestiona los recursos del hardware y ofrece servicios a los programas de aplicación y usuarios. Maneja procesos, memoria, almacenamiento, dispositivos y la interfaz de usuario.</p>
-        <hr style="margin:12px 0;border:none;border-top:1px solid #f1f5ff">
-        <div class="info-grid">
-          <div>
-            <h3>Importancia</h3>
-            <ul>
-              <li>Permite ejecutar aplicaciones y gestionar recursos eficientemente.</li>
-              <li>Abstrae la complejidad del hardware para los desarrolladores.</li>
-              <li>Asegura seguridad, multitarea y manejo de dispositivos.</li>
-            </ul>
+        <h2 style="margin-top:0">¿Qué es un sistema operativo?</h2>
+        <p class="muted">Definición, importancia y cómo funciona (versión resumida).</p>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-top:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px">
+            <p><strong>Definición:</strong> Un sistema operativo (SO) es el software principal que administra los recursos del computador: procesador, memoria, dispositivos de entrada/salida y archivos. Proporciona una interfaz entre el hardware y las aplicaciones del usuario.</p>
+            <p><strong>Importancia:</strong> Sin un SO las aplicaciones no podrían usar el hardware de forma organizada; gestiona procesos, seguridad, permisos, archivos y redes.</p>
           </div>
-          <div>
-            <h3>¿Para qué sirve?</h3>
-            <ul>
-              <li>Controlar procesos y memoria.</li>
-              <li>Administrar archivos y sistemas de almacenamiento.</li>
-              <li>Comunicar software con hardware (drivers).</li>
-            </ul>
+          <div style="min-width:160px">
+            <!-- simple laptop svg -->
+            <svg viewBox="0 0 64 48" width="160" height="120" aria-hidden>
+              <rect x="2" y="6" width="60" height="34" rx="3" fill="url(#g1)"/>
+              <rect x="6" y="10" width="52" height="22" rx="1.5" fill="#fff"/>
+              <line x1="0" y1="46" x2="64" y2="46" stroke="#e6eefc" stroke-width="3"/>
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#eaf4ff"/>
+                  <stop offset="1" stop-color="#fff0f4"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <div class="explain">
+          <strong>Cómo funciona (breve):</strong>
+          <ol style="margin:8px 0 0 18px;padding:0">
+            <li>Inicializa el hardware (arranque).</li>
+            <li>Gestiona procesos y memoria para ejecutar programas.</li>
+            <li>Controla acceso a dispositivos y archivos.</li>
+            <li>Provee la interfaz para que aplicaciones y usuarios interactúen.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div style="height:14px"></div>
+
+      <!-- Three OS cards -->
+      <div class="grid-3">
+        <div class="card os-card os-windows">
+          <div class="os-title">
+            <!-- Windows-like SVG -->
+            <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden>
+              <rect x="1" y="2" width="10" height="8" rx="1.2" fill="#1e88e5"/>
+              <rect x="13" y="2" width="10" height="8" rx="1.2" fill="#1e88e5"/>
+              <rect x="1" y="12" width="10" height="8" rx="1.2" fill="#1976d2"/>
+              <rect x="13" y="12" width="10" height="8" rx="1.2" fill="#1976d2"/>
+            </svg>
+            <h3>Windows</h3>
+          </div>
+          <div class="muted">Orientado a usuarios y empresas, popular en PCs y laptops.</div>
+          <p style="margin:8px 0 0">Arquitectura: monolítica/mixta (kernel con controladores). Importante por su amplia compatibilidad con software y juegos. Usabilidad orientada a GUI (escritorio).</p>
+          <p style="margin:6px 0 0;font-size:14px"><strong>Aplicaciones:</strong> Ofimática, videojuegos, diseño, software empresarial.</p>
+        </div>
+
+        <div class="card os-card os-linux">
+          <div class="os-title">
+            <!-- Penguin-like simplified -->
+            <svg viewBox="0 0 64 64" width="36" height="36" aria-hidden>
+              <circle cx="32" cy="32" r="30" fill="#fff"/>
+              <ellipse cx="32" cy="36" rx="12" ry="16" fill="#111"/>
+              <ellipse cx="32" cy="30" rx="6" ry="8" fill="#fff"/>
+            </svg>
+            <h3>Linux</h3>
+          </div>
+          <div class="muted">Flexible, usado en servidores, supercomputadoras y dispositivos embebidos.</div>
+          <p style="margin:8px 0 0">Arquitectura: kernel monolítico modular (Linux kernel). Destaca por su estabilidad, seguridad y personalización. Muy usado en servidores y desarrollo.</p>
+          <p style="margin:6px 0 0;font-size:14px"><strong>Aplicaciones:</strong> Servidores web, contenedores, desarrollo, IoT, sistemas embebidos.</p>
+        </div>
+
+        <div class="card os-card os-macos">
+          <div class="os-title">
+            <!-- Simple apple-ish shape (stylized, generic) -->
+            <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden>
+              <path d="M14 3c0 0 2-.5 3 1s0 3-1 4-3 1-3 1-1.5-2-2.5-3S14 3 14 3z" fill="#6b6b6b"/>
+              <path d="M6 9c-1.5 2.5-1 6 1 9s4 4 6 4 4-1 6-4 2.5-6 1-9c-2-4-7-4.5-9-2-1 1.5-2 2.5-5 2z" fill="#b1b1b1"/>
+            </svg>
+            <h3>macOS</h3>
+          </div>
+          <div class="muted">Fuerte integración hardware-software (Apple). Enfocado en creativos y usuarios profesionales.</div>
+          <p style="margin:8px 0 0">Arquitectura: núcleo hybrid (XNU) + capas Unix (Darwin). Conocido por su diseño, estabilidad y ecosistema integrado.</p>
+          <p style="margin:6px 0 0;font-size:14px"><strong>Aplicaciones:</strong> Diseño gráfico, edición de video/audio, desarrollo iOS/macOS.</p>
+        </div>
+      </div>
+
+      <!-- Illustrative images -->
+      <div class="card">
+        <h3 style="margin-top:0">Imágenes y recursos</h3>
+        <p class="muted">Iconos y dibujos integrados. Puedes reemplazar las SVG por imágenes reales si lo prefieres.</p>
+        <div class="illus-row">
+          <div class="illus" style="flex:1">
+            <svg viewBox="0 0 64 64" aria-hidden><rect x="2" y="6" width="60" height="34" rx="3" fill="url(#b1)"/><defs><linearGradient id="b1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf4ff"/><stop offset="1" stop-color="#fff0f4"/></linearGradient></defs></svg>
+            <div>
+              <div style="font-weight:700">Computadoras y dispositivos</div>
+              <div class="small">Portátiles, desktops, servidores y dispositivos embebidos usan distintos sistemas operativos.</div>
+            </div>
+          </div>
+
+          <div class="illus" style="flex-basis:220px;justify-content:center">
+            <div>
+              <div style="font-weight:700;text-align:center">Colores</div>
+              <div class="small" style="text-align:center">Azul + rosado cálido para contraste y legibilidad</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div style="height:12px"></div>
-
-      <div class="card">
-        <h2>Evolución breve</h2>
-        <p class="muted">Desde sistemas monolíticos y por lotes (años 50-60), pasando por sistemas con multiprogramación, hasta los modernos SO multitarea y con interfaces gráficas. Los más populares hoy en día son Windows (Microsoft), macOS (Apple) y diversas distribuciones de Linux (comunidad y empresas).</p>
-      </div>
-
-      <div style="height:12px"></div>
-
-      <div class="card">
-        <h2>Arquitectura general</h2>
-        <p class="muted">Una arquitectura típica de SO incluye:</p>
-        <ul>
-          <li><strong>Núcleo (kernel)</strong>: maneja procesos, interrupciones y drivers.</li>
-          <li><strong>Espacio de usuario</strong>: aplicaciones y utilidades.</li>
-          <li><strong>Sistemas de archivos</strong>: organización y acceso a datos.</li>
-          <li><strong>Gestor de memoria y scheduler</strong>: asignación de memoria y planificación de procesos.</li>
-        </ul>
-      </div>
-
-      <div style="height:12px"></div>
-
-      <div class="card">
-        <h2>Usabilidad y aplicaciones</h2>
-        <p class="muted">Los SO ofrecen diferentes experiencias de usuario (GUI, CLI). Aplicaciones típicas: navegadores, suites ofimáticas, entornos de desarrollo, servidores web y bases de datos. Algunos SO (p. ej. Linux) son muy comunes en servidores y desarrollo, mientras que Windows y macOS dominan escritorios y ciertas industrias creativas.</p>
-      </div>
-
-      <div style="height:12px"></div>
-
-      <div class="card">
-        <h2>Comparativa rápida</h2>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <div style="flex:1;min-width:200px" class="os-block">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" alt="Windows">
-            <div>
-              <strong>Windows</strong>
-              <div class="muted">Popular en PCs, buena compatibilidad de software/games, interfaz gráfica intuitiva.</div>
-            </div>
-          </div>
-
-          <div style="flex:1;min-width:200px" class="os-block">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Lenux.png" alt="Linux">
-            <div>
-              <strong>Linux</strong>
-              <div class="muted">Flexible, muchas distribuciones, usado en servidores, desarrollo y sistemas embarcados.</div>
-            </div>
-          </div>
-
-          <div style="flex:1;min-width:200px" class="os-block">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Apple_logo_grey.svg" alt="macOS">
-            <div>
-              <strong>macOS</strong>
-              <div class="muted">Integración hardware-software con Apple, fuerte en creatividad y desarrollo iOS/macOS.</div>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800&q=60" alt="computadora" style="width:100%;max-width:380px;border-radius:10px;object-fit:cover">
-          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=800&q=60" alt="computadora 2" style="width:100%;max-width:380px;border-radius:10px;object-fit:cover">
-        </div>
-      </div>
     </section>
 
-    <!-- aside: quiz -->
-    <aside class="aside">
+    <!-- Right: quiz -->
+    <aside class="side">
       <div class="card">
-        <h2>Cuestionario: Sistemas Operativos</h2>
-        <div class="start-section">
-          <label for="studentName">Nombre del estudiante</label>
-          <input id="studentName" name="studentName" placeholder="Escribe tu nombre..." />
-          <div style="display:flex;gap:8px">
-            <button id="startBtn" class="primary">Iniciar cuestionario</button>
-            <button id="resetBtn" class="ghost">Reiniciar</button>
-          </div>
-          <small class="muted">Al iniciar se generarán 10 preguntas aleatorias.</small>
+        <h3 style="margin-top:0">Cuestionario: Sistemas Operativos</h3>
+        <div class="small">Completa el nombre del estudiante y presiona <strong>Iniciar</strong>.</div>
+
+        <div style="margin-top:10px" class="input-row">
+          <input id="studentName" type="text" placeholder="Nombre del estudiante" aria-label="Nombre del estudiante">
+          <button id="startBtn">Iniciar</button>
         </div>
 
-        <div class="quiz-area" id="quizArea" style="display:none">
-          <div id="questionContainer"></div>
+        <div id="quizContainer" class="quiz-area" style="display:none">
+          <div class="small" id="welcomeText"></div>
+          <div style="margin-top:10px" class="card" id="questionCard">
+            <div class="question" id="qText">Pregunta</div>
+            <div class="choices" id="choices"></div>
+            <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+              <button id="nextBtn" class="ghost">Siguiente</button>
+              <div style="flex:1" class="small muted" id="qCount"></div>
+            </div>
+            <div class="progress" aria-hidden><i id="progressBar"></i></div>
+          </div>
 
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-            <div id="progress" class="muted">Pregunta <span id="curQ">0</span> / 10</div>
-            <div style="display:flex;gap:8px">
-              <button id="nextBtn" class="primary">Siguiente</button>
-              <button id="finishBtn" class="ghost">Terminar</button>
+          <div id="finalCard" style="display:none;margin-top:12px">
+            <div class="card">
+              <h4>Resultados</h4>
+              <div id="scoreText" style="font-size:18px;margin-bottom:6px"></div>
+              <div id="answersList" class="results"></div>
+              <div style="display:flex;gap:8px;margin-top:10px">
+                <button id="retryBtn">Volver a intentar</button>
+                <button id="downloadBtn" class="ghost">Descargar resultado</button>
+              </div>
             </div>
           </div>
-
-          <div class="summary" id="summary" style="display:none"></div>
         </div>
 
+        <div id="beforeStart" style="margin-top:12px">
+          <p class="small muted">El banco contiene 30 preguntas distintas; cada intento usará 10 preguntas seleccionadas al azar.</p>
+        </div>
       </div>
+
+      <div style="height:12px"></div>
+
+      <div class="card">
+        <h4 style="margin-top:0">Instrucciones</h4>
+        <ol class="small" style="margin:8px 0 0 18px">
+          <li>Ingresa tu nombre.</li>
+          <li>Presiona <strong>Iniciar</strong>.</li>
+          <li>Selecciona una respuesta por pregunta.</li>
+          <li>Al terminar verás tus aciertos y fallos.</li>
+        </ol>
+      </div>
+
     </aside>
   </main>
 
   <footer>
-    <div>Creado por tu asistente — práctica y aprende ♥</div>
+    Página creada para fines educativos • Responsive • Hecha con HTML/CSS/JS
   </footer>
 
-<script>
-/* ---------------------------
-  Banco de 30 preguntas (español)
-  Cada pregunta: {q, options:[...], answer: index}
------------------------------*/
-const BANK = [
-  { q: "¿Qué es el kernel de un sistema operativo?", options:["Interfaz gráfica","Núcleo que gestiona recursos","Aplicación de usuario","Lenguaje de programación"], answer:1},
-  { q: "¿Cuál de los siguientes es un sistema operativo de código abierto?", options:["Windows 10","macOS","Linux","iOS"], answer:2},
-  { q: "¿Qué sistema operativo usa principalmente la terminal 'bash' de forma nativa?", options:["Windows","Linux","Android","iOS"], answer:1},
-  { q: "¿Qué función principal tiene un gestor de archivos?", options:["Gestionar procesos","Organizar y acceder a archivos","Controlar la memoria RAM","Actualizar el sistema"], answer:1},
-  { q: "¿Qué SO es conocido por su integración con hardware Apple?", options:["Linux","Windows","macOS","FreeBSD"], answer:2},
-  { q: "¿Qué significa GUI?", options:["General User Input","Graphical User Interface","Global Utility Index","Generic User Interaction"], answer:1},
-  { q: "¿Qué es un driver?", options:["Una tarea del procesador","Software que permite al SO comunicarse con hardware","Un virus informático","Un archivo de audio"], answer:1},
-  { q: "¿Cuál es una ventaja de Linux en servidores?", options:["Menor seguridad","Licencia cara","Alta estabilidad y personalización","Poca compatibilidad"], answer:2},
-  { q: "¿Qué es la multitarea?", options:["Ejecución de múltiples programas simultáneamente","Uso de una sola aplicación a la vez","Copia de seguridad del disco","Instalación de software"], answer:0},
-  { q: "¿Qué gestor de paquetes es típico en distribuciones basadas en Debian?", options:["rpm","apt","pacman","yum"], answer:1},
-  { q: "¿Qué tabla o estructura ayuda a gestionar la memoria virtual?", options:["MBR","Tabla de particiones","Tabla de páginas (page table)","Registro de eventos"], answer:2},
-  { q: "¿Qué sistema de archivos usa macOS por defecto en versiones modernas?", options:["NTFS","ext4","APFS","FAT32"], answer:2},
-  { q: "¿Cuál es el propósito del scheduler en un SO?", options:["Gestionar dispositivos","Planificar la ejecución de procesos","Actualizar drivers","Gestionar archivos"], answer:1},
-  { q: "¿Qué es la virtualización?", options:["Convertir hardware en software","Ejecutar varios SO en una misma máquina física","Eliminar virus","Compilar drivers"], answer:1},
-  { q: "¿Qué SO es más popular en escritorios (globalmente) por cuota de mercado?", options:["Linux","macOS","Windows","FreeBSD"], answer:2},
-  { q: "¿Qué comando en Linux muestra procesos en ejecución?", options:["ls","ps","copy","run"], answer:1},
-  { q: "¿Qué es un sistema de archivos?", options:["Conjunto de drivers","Método para organizar y almacenar archivos en disco","Aplicación de usuario","Sistema de seguridad"], answer:1},
-  { q: "¿Qué SO usa tipicamente la App Store para instalar aplicaciones?", options:["Windows","Linux","macOS","DOS"], answer:2},
-  { q: "¿Qué es un proceso en un SO?", options:["Un archivo de texto","Instancia en ejecución de un programa","Un tipo de memoria","Un driver"], answer:1},
-  { q: "¿Qué herramienta es común para actualizar paquetes en macOS?", options:["apt-get","Homebrew (brew)","yum","pacman"], answer:1},
-  { q: "¿Qué es swapping?", options:["Intercambio de datos entre RAM y almacenamiento para liberar memoria","Instalación de software","Copia de seguridad","Formateo de disco"], answer:0},
-  { q: "¿Qué SO posee la interfaz 'Finder'?", options:["Windows","macOS","Linux","Android"], answer:1},
-  { q: "¿Qué término se refiere a la protección de accesos y permisos en archivos?", options:["Encriptación","Permisos y control de acceso (ACL)","Fragmentación","Compresión"], answer:1},
-  { q: "¿Qué SO es muy utilizado en supercomputación y servidores de alto rendimiento?", options:["Windows Home","macOS Catalina","Linux","Windows Phone"], answer:2},
-  { q: "¿Qué herramienta gráfica usa Windows para manejar archivos?", options:["Explorer (Explorador de archivos)","Finder","Nautilus","Konqueror"], answer:0},
-  { q: "¿Cuál es una característica del kernel monolítico?", options:["Kernel dividido en muchos procesos separados","Todo el kernel corre en un único espacio privilegiado","No usa drivers","Requiere menos memoria"], answer:1},
-  { q: "¿Qué significa 'CLI'?", options:["Command Line Interface","Computer Local Interface","Control Line Interaction","Common Library Interface"], answer:0},
-  { q: "¿Qué forma de instalación de software es típica en Windows?", options:[".deb",".rpm",".exe",".pkg"], answer:2},
-  { q: "¿Cuál es una ventaja del uso de interfaces gráficas?", options:["Mayor velocidad de CPU","Mayor accesibilidad e intuitividad para usuarios","Reduce uso de disco","Mejora la compilación de programas"], answer:1},
-  { q: "¿Qué componente gestiona las interrupciones de hardware?", options:["Scheduler","Kernel","Sistema de archivos","Shell"], answer:1}
-];
+  <script>
+    /*************************************************************************
+     * Banco de preguntas (mínimo 30). Cada pregunta tiene:
+     * {id, text, options:[...], answer: index (0-based), topic}
+     * Texto en español. Incluye preguntas sobre Windows, Linux, macOS y SO en general.
+     *************************************************************************/
+    const questionBank = [
+      {id:1, text:"¿Qué es un sistema operativo?", options:["Un lenguaje de programación","Un software que administra recursos del equipo","Un antivirus","Una aplicación ofimática"], answer:1, topic:"general"},
+      {id:2, text:"¿Cuál de estos es un kernel de Linux?", options:["NT Kernel","XNU","Linux Kernel","HURD"], answer:2, topic:"linux"},
+      {id:3, text:"macOS está basado en qué proyecto de código abierto?", options:["Darwin","FreeBSD","Solaris","BeOS"], answer:0, topic:"macos"},
+      {id:4, text:"¿Cuál es la principal ventaja de Linux en servidores?", options:["Gran compatibilidad con juegos","Estabilidad y seguridad","Interfaz gráfica avanzada","Requiere poca configuración"], answer:1, topic:"linux"},
+      {id:5, text:"¿Qué interfaz es la más común en Windows para el usuario?", options:["Línea de comandos (CLI)","Interfaz gráfica (GUI)","BIOS","Ninguna"], answer:1, topic:"windows"},
+      {id:6, text:"¿Qué tipo de licencia es típico en Linux?", options:["Propietaria","De pago anual","Software libre / código abierto","Suscripción"], answer:2, topic:"linux"},
+      {id:7, text:"¿Qué componente gestiona la memoria en un SO?", options:["Scheduler","File system","Memory manager (gestor de memoria)","Bootloader"], answer:2, topic:"general"},
+      {id:8, text:"¿Qué es un sistema de archivos (filesystem)?", options:["Un gestor de memoria","La forma en que se organizan los archivos en disco","Un kernel alternativo","Una capa de red"], answer:1, topic:"general"},
+      {id:9, text:"¿Cuál es el nombre del gestor de arranque que suelen usar muchas distros Linux?", options:["GRUB","NTLDR","BootCamp","Windows Boot Manager"], answer:0, topic:"linux"},
+      {id:10, text:"¿Cuál empresa desarrolla Windows?", options:["Apple","Microsoft","Canonical","Red Hat"], answer:1, topic:"windows"},
+      {id:11, text:"¿Qué herramienta permite ejecutar aplicaciones de Linux en macOS usando compatibilidad Unix?", options:["Wine","Homebrew","Terminal/Bash y herramientas POSIX","Visual Studio"], answer:2, topic:"macos"},
+      {id:12, text:"¿Qué SO es conocido por su fuerte integración hardware-software y por ser usado en Macbooks?", options:["Windows","Linux","macOS","Android"], answer:2, topic:"macos"},
+      {id:13, text:"¿Cuál de los siguientes es un entorno de escritorio en Linux?", options:["Finder","Explorer","GNOME","Aero"], answer:2, topic:"linux"},
+      {id:14, text:"¿Qué significa GUI?", options:["Gestor de usuarios internos","Graphical User Interface (Interfaz gráfica)","Generic User Input","Global Update Interface"], answer:1, topic:"general"},
+      {id:15, text:"¿Cuál de estas versiones es un estilo de kernel usado en macOS?", options:["NT","XNU","Linux","Hurd"], answer:1, topic:"macos"},
+      {id:16, text:"En Windows, ¿qué herramienta se usa para administrar programas al inicio (startup)?", options:["Task Manager/Administrador de tareas","Terminal","Finder","Systemd"], answer:0, topic:"windows"},
+      {id:17, text:"¿Qué comando se usa frecuentemente para listar archivos en Linux desde la terminal?", options:["ls","dir","list","show"], answer:0, topic:"linux"},
+      {id:18, text:"¿Qué característica destaca a macOS para profesionales creativos?", options:["Amplia compatibilidad con juegos","Ecosistema y aplicaciones creativas optimizadas","Licencia libre","Interfaz de línea de comandos"], answer:1, topic:"macos"},
+      {id:19, text:"¿Qué SO se utiliza con frecuencia en servidores web y supercomputadoras?", options:["macOS","Windows Home","Linux","Windows XP"], answer:2, topic:"linux"},
+      {id:20, text:"¿Qué es un proceso en un sistema operativo?", options:["Un tipo de archivo","Una ejecución en curso de un programa","Un driver","Un dispositivo"], answer:1, topic:"general"},
+      {id:21, text:"¿Qué gestor de paquetes es muy usado en distribuciones basadas en Debian (Linux)?", options:["apt / apt-get","yum","Homebrew","choco"], answer:0, topic:"linux"},
+      {id:22, text:"¿Cuál es la capa que ayuda a comunicarse entre software y hardware?", options:["Interfaz de usuario","Kernel","Aplicación","Ninguna"], answer:1, topic:"general"},
+      {id:23, text:"Windows 10 y 11 usan qué tipo de interfaz principal?", options:["CLI","GUI","Solo móvil","Ninguna"], answer:1, topic:"windows"},
+      {id:24, text:"¿Qué SO incluye la App Store y un enfoque en aplicaciones firmadas por Apple?", options:["Linux","Windows","macOS","Android"], answer:2, topic:"macos"},
+      {id:25, text:"¿Qué componente controla la ejecución de procesos (quién usa la CPU y cuándo)?", options:["Scheduler (planificador)","File system","Memory manager","GUI"], answer:0, topic:"general"},
+      {id:26, text:"¿Cuál es una ventaja de las distribuciones Linux para programadores y servidores?", options:["Licencia de pago","Fácil de piratear","Altamente personalizable y control total","No tiene soporte"], answer:2, topic:"linux"},
+      {id:27, text:"¿Qué SO fue diseñado originalmente para PCs personales y popularizó la GUI en 1990s?", options:["macOS","Linux","Windows","DOS"], answer:2, topic:"windows"},
+      {id:28, text:"¿Qué utilidad se usa en macOS para gestionar discos y particiones?", options:["Disk Utility (Utilidad de Discos)","fdisk","GParted","Disk Manager de Windows"], answer:0, topic:"macos"},
+      {id:29, text:"¿Cuál de estas opciones describe mejor 'kernel'?", options:["Software que inicia y administra el hardware y recursos básicos","Una aplicación de usuario","Un plugin de navegador","Un sistema de archivos"], answer:0, topic:"general"},
+      {id:30, text:"¿Qué comando de Windows muestra la configuración de red en CMD?", options:["ipconfig","ifconfig","netstat -a","ls"], answer:0, topic:"windows"},
+      {id:31, text:"¿Qué licencia es propietaria y usada por macOS?", options:["GPL","MIT","Propietaria (Apple)","BSD"], answer:2, topic:"macos"},
+      {id:32, text:"¿Cuál de estos no es un sistema operativo de escritorio moderno?", options:["Windows","Linux","macOS","MS-DOS 6.22"], answer:3, topic:"general"},
+      {id:33, text:"¿Qué sistema se recomienda para servidores en la nube por ser ligero y configurable?", options:["Windows Home","Ubuntu Server (Linux)","iOS","macOS Home"], answer:1, topic:"linux"}
+    ];
 
-let selectedQuestions = []; // indices of chosen questions
-let quizQuestions = []; // actual question objects (with shuffled options copied)
-let currentIndex = 0;
-let studentName = '';
-let answersGiven = []; // store {qIndex, selectedOptIndex, correctIndex}
+    // UI elements
+    const startBtn = document.getElementById('startBtn');
+    const studentNameInput = document.getElementById('studentName');
+    const quizContainer = document.getElementById('quizContainer');
+    const beforeStart = document.getElementById('beforeStart');
+    const welcomeText = document.getElementById('welcomeText');
+    const qText = document.getElementById('qText');
+    const choicesDiv = document.getElementById('choices');
+    const qCount = document.getElementById('qCount');
+    const progressBar = document.getElementById('progressBar');
+    const nextBtn = document.getElementById('nextBtn');
+    const finalCard = document.getElementById('finalCard');
+    const scoreText = document.getElementById('scoreText');
+    const answersList = document.getElementById('answersList');
+    const retryBtn = document.getElementById('retryBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-const startBtn = document.getElementById('startBtn');
-const resetBtn = document.getElementById('resetBtn');
-const nameInput = document.getElementById('studentName');
-const quizArea = document.getElementById('quizArea');
-const questionContainer = document.getElementById('questionContainer');
-const curQ = document.getElementById('curQ');
-const progress = document.getElementById('progress');
-const nextBtn = document.getElementById('nextBtn');
-const finishBtn = document.getElementById('finishBtn');
-const summary = document.getElementById('summary');
-
-function randIndices(n, max) {
-  // return n unique random indices from 0..max-1
-  const arr = Array.from({length:max},(_,i)=>i);
-  for(let i=arr.length-1;i>0;i--){
-    let j = Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
-  }
-  return arr.slice(0,n);
-}
-
-function shuffleArray(arr){
-  const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
-}
-
-function prepareQuiz(){
-  // choose 10 unique questions from BANK (30)
-  selectedQuestions = randIndices(10, BANK.length);
-  quizQuestions = selectedQuestions.map(idx=>{
-    const base = BANK[idx];
-    // create options with mapping to original answer index
-    const options = base.options.map((opt,i)=>({text:opt, originalIndex:i}));
-    const shuffled = shuffleArray(options);
-    // find new index of correct
-    const correctMapping = shuffled.findIndex(o=>o.originalIndex === base.answer);
-    return {
-      q: base.q,
-      options: shuffled.map(o=>o.text),
-      correctIndex: correctMapping,
-      originalBankIndex: idx
+    let quiz = {
+      studentName: '',
+      questions: [], // selected questions
+      currentIndex: 0,
+      answers: [] // store {qid, chosenIndex, correctIndex}
     };
-  });
-  answersGiven = quizQuestions.map(()=>({selected:null}));
-  currentIndex = 0;
-}
 
-function renderQuestion(i){
-  const Q = quizQuestions[i];
-  questionContainer.innerHTML = `
-    <div class="question-card card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <strong>Pregunta ${i+1}:</strong>
-          <div style="margin-top:8px">${Q.q}</div>
-        </div>
-        <div style="text-align:right" class="muted">Estudiante: <strong>${studentName}</strong></div>
-      </div>
+    // Utility: shuffle array
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+      }
+      return arr;
+    }
 
-      <div class="options" id="optList">
-        ${Q.options.map((opt,idx)=>`<div class="option" data-idx="${idx}">${String.fromCharCode(65+idx)}. ${opt}</div>`).join('')}
-      </div>
-    </div>
-  `;
-  // wire options click
-  const optList = document.getElementById('optList');
-  optList.querySelectorAll('.option').forEach(el=>{
-    el.addEventListener('click', ()=>{
-      // unselect others
-      optList.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-      el.classList.add('selected');
-      answersGiven[i].selected = Number(el.dataset.idx);
+    // Start quiz event
+    startBtn.addEventListener('click', ()=>{
+      const name = studentNameInput.value.trim() || "Estudiante";
+      quiz.studentName = name;
+      // pick 10 unique random questions from bank
+      const copy = [...questionBank];
+      shuffle(copy);
+      quiz.questions = copy.slice(0,10);
+      quiz.currentIndex = 0;
+      quiz.answers = [];
+      // UI show
+      welcomeText.textContent = `¡Hola, ${quiz.studentName}! Responde las 10 preguntas.`;
+      beforeStart.style.display = 'none';
+      quizContainer.style.display = 'block';
+      finalCard.style.display = 'none';
+      renderCurrentQuestion();
+      updateProgress();
     });
-  });
 
-  curQ.textContent = (i+1) + '';
-  // disable next if none selected
-  nextBtn.disabled = answersGiven[i].selected === null;
-  nextBtn.style.opacity = nextBtn.disabled ? 0.6 : 1;
-}
+    // Render current question
+    function renderCurrentQuestion(){
+      const q = quiz.questions[quiz.currentIndex];
+      qText.textContent = `${quiz.currentIndex+1}. ${q.text}`;
+      // build choices
+      choicesDiv.innerHTML = '';
+      // create copy of options with indices so we can randomize display but still know original index
+      const opts = q.options.map((o,i)=>({o,idx:i}));
+      shuffle(opts);
+      opts.forEach(optObj=>{
+        const btn = document.createElement('button');
+        btn.className='choice';
+        btn.type='button';
+        btn.innerHTML = optObj.o;
+        btn.dataset.choiceIdx = optObj.idx; // store original index (0-based)
+        btn.addEventListener('click', ()=>{
+          // remove selected from siblings
+          Array.from(choicesDiv.children).forEach(c=>c.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+        choicesDiv.appendChild(btn);
+      });
+      qCount.textContent = `Pregunta ${quiz.currentIndex+1} de ${quiz.questions.length}`;
+      nextBtn.textContent = (quiz.currentIndex === quiz.questions.length-1) ? 'Terminar' : 'Siguiente';
+    }
 
-startBtn.addEventListener('click', ()=>{
-  const name = nameInput.value.trim();
-  if(!name){ alert('Por favor escribe el nombre del estudiante.'); nameInput.focus(); return; }
-  studentName = name;
-  prepareQuiz();
-  quizArea.style.display = 'block';
-  summary.style.display = 'none';
-  renderQuestion(0);
-});
+    // Next button
+    nextBtn.addEventListener('click', ()=>{
+      const selectedBtn = choicesDiv.querySelector('.choice.selected');
+      if(!selectedBtn){
+        alert('Seleccione una respuesta antes de continuar.');
+        return;
+      }
+      const chosenIndex = Number(selectedBtn.dataset.choiceidx || selectedBtn.dataset.choiceIdx);
+      const q = quiz.questions[quiz.currentIndex];
+      quiz.answers.push({qid:q.id, text:q.text, chosenIndex, correctIndex:q.answer, options:q.options});
+      if(quiz.currentIndex < quiz.questions.length-1){
+        quiz.currentIndex++;
+        renderCurrentQuestion();
+        updateProgress();
+      } else {
+        // finish
+        showResults();
+      }
+    });
 
-resetBtn.addEventListener('click', ()=>{
-  if(confirm('¿Deseas reiniciar el cuestionario y borrar progresos?')) {
-    nameInput.value = '';
-    studentName = '';
-    quizArea.style.display = 'none';
-    questionContainer.innerHTML = '';
-    summary.style.display = 'none';
-  }
-});
+    // Update progress bar
+    function updateProgress(){
+      const pct = Math.round((quiz.currentIndex)/(quiz.questions.length)*100);
+      progressBar.style.width = pct + '%';
+    }
 
-nextBtn.addEventListener('click', ()=>{
-  // if no selected show alert
-  if(answersGiven[currentIndex].selected === null){
-    alert('Selecciona una opción antes de continuar.');
-    return;
-  }
-  if(currentIndex < quizQuestions.length - 1){
-    currentIndex++;
-    renderQuestion(currentIndex);
-  } else {
-    // last question - consider finishing
-    showResults();
-  }
-});
+    // Show results
+    function showResults(){
+      quizContainer.style.display = 'block';
+      finalCard.style.display = 'block';
+      // calculate score
+      let correct = 0;
+      answersList.innerHTML = '';
+      quiz.answers.forEach((a, i)=>{
+        const isCorrect = (a.chosenIndex === a.correctIndex);
+        if(isCorrect) correct++;
+        const div = document.createElement('div');
+        div.className = 'result-item ' + (isCorrect ? 'correct' : 'wrong');
+        div.innerHTML = `<div style="max-width:70%"><strong>P${i+1}.</strong> ${a.text}<div class="small" style="margin-top:6px">Tu respuesta: ${a.options[a.chosenIndex] || '—'}</div></div>
+                         <div style="text-align:right"><div style="font-weight:700">${isCorrect ? 'Correcto' : 'Incorrecto'}</div><div class="small" style="margin-top:6px">Respuesta correcta:<br><strong>${a.options[a.correctIndex]}</strong></div></div>`;
+        answersList.appendChild(div);
+      });
+      scoreText.textContent = `${quiz.studentName}, obtuviste ${correct} de ${quiz.questions.length} (${Math.round(correct/quiz.questions.length*100)}%).`;
+      // show summary
+      progressBar.style.width = '100%';
+      // scroll to results (if on small)
+      setTimeout(()=>{ finalCard.scrollIntoView({behavior:'smooth'}); }, 120);
+    }
 
-finishBtn.addEventListener('click', ()=>{
-  if(confirm('¿Deseas terminar el cuestionario ahora?')) showResults();
-});
+    // Retry
+    retryBtn.addEventListener('click', ()=>{
+      // reset UI
+      quizContainer.style.display = 'none';
+      beforeStart.style.display = 'block';
+      studentNameInput.focus();
+      progressBar.style.width = '0%';
+    });
 
-function showResults(){
-  // ensure we record current selection (already done)
-  // compute score
-  let correct = 0;
-  const resultsHtml = [];
-  for(let i=0;i<quizQuestions.length;i++){
-    const q = quizQuestions[i];
-    const sel = answersGiven[i].selected;
-    const isOk = (sel === q.correctIndex);
-    if(isOk) correct++;
-    resultsHtml.push(`
-      <div class="result-item">
-        <div><strong>Pregunta ${i+1}:</strong> ${q.q}</div>
-        <div style="margin-top:6px">
-          Tu respuesta: <strong>${sel===null? 'Sin responder' : String.fromCharCode(65+sel)+'. '+q.options[sel]}</strong>
-        </div>
-        <div>Respuesta correcta: <strong>${String.fromCharCode(65+q.correctIndex)}. ${q.options[q.correctIndex]}</strong></div>
-        <div style="margin-top:6px">${isOk ? '<span class="result-good">✔ Correcta</span>' : '<span class="result-bad">✖ Incorrecta</span>'}</div>
-      </div>
-    `);
-  }
+    // Download result as simple text file
+    downloadBtn.addEventListener('click', ()=>{
+      let content = `Resultados del cuestionario - ${quiz.studentName}\nFecha: ${new Date().toLocaleString()}\n\n`;
+      quiz.answers.forEach((a,i)=>{
+        const corr = a.options[a.correctIndex];
+        const chosen = a.options[a.chosenIndex] || '—';
+        const ok = (a.chosenIndex === a.correctIndex) ? 'Correcto' : 'Incorrecto';
+        content += `${i+1}. ${a.text}\n   Tu: ${chosen}\n   Correcta: ${corr}\n   ${ok}\n\n`;
+      });
+      const blob = new Blob([content], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `resultados_${quiz.studentName.replace(/\s+/g,'_')}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
 
-  summary.innerHTML = `
-    <div class="card">
-      <h3>Resultados de ${studentName}</h3>
-      <div class="muted">Puntuación: <strong>${correct} / ${quizQuestions.length}</strong></div>
-      <div style="margin-top:8px">Detalles:</div>
-      <div class="results-list">${resultsHtml.join('')}</div>
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <button id="retryBtn" class="primary">Volver a generar quiz</button>
-        <button id="downloadBtn" class="ghost">Descargar resultados (JSON)</button>
-      </div>
-    </div>
-  `;
-  summary.style.display = 'block';
-  // attach event listeners to retry & download
-  document.getElementById('retryBtn').addEventListener('click', ()=>{
-    prepareQuiz();
-    summary.style.display = 'none';
-    renderQuestion(0);
-  });
-  document.getElementById('downloadBtn').addEventListener('click', ()=>{
-    const data = {
-      student: studentName,
-      date: new Date().toISOString(),
-      score: `${correct}/${quizQuestions.length}`,
-      responses: quizQuestions.map((q,idx)=>({
-        question:q.q,
-        options:q.options,
-        selected: answersGiven[idx].selected,
-        correctIndex: q.correctIndex
-      }))
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = `resultados_${studentName.replace(/\s+/g,'_')}.json`;
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
-  });
-}
+    // Accessibility: allow Enter to start
+    studentNameInput.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter') startBtn.click();
+    });
 
-/* keep next button state updated when selecting on current question */
-document.addEventListener('click', (e)=>{
-  if(e.target.classList && e.target.classList.contains('option')){
-    nextBtn.disabled = false;
-    nextBtn.style.opacity = 1;
-  }
-});
-
-/* initialize UI state */
-nextBtn.disabled = true;
-</script>
+    // Small improvement: allow selecting by keyboard numbers
+    document.addEventListener('keydown', (e)=>{
+      if(document.body.contains(choicesDiv) && quizContainer.style.display === 'block' && finalCard.style.display === 'none'){
+        const key = e.key;
+        if(/^[1-4]$/.test(key)){
+          const idx = Number(key)-1;
+          const btns = choicesDiv.querySelectorAll('.choice');
+          if(btns[idx]) btns[idx].click();
+        }
+        if(key === 'Enter') nextBtn.click();
+      }
+    });
+  </script>
 </body>
 </html>
